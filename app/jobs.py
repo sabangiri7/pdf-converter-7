@@ -33,6 +33,7 @@ from .helpers import (
     page_count,
     safe_display_name,
 )
+from .security import confined_under, get_job_semaphore
 
 jobs_bp = Blueprint("jobs", __name__)
 
@@ -237,18 +238,26 @@ def run_job(job_id: str, service_fn, options: dict | None = None, *,
                         "upload again.")
     outdir = _output_dir(job_id)
     outdir.mkdir(parents=True, exist_ok=True)
+    sem = get_job_semaphore(current_app)
+    if not sem.acquire(blocking=False):
+        raise ToolError(
+            "The server is busy processing other jobs. Please wait a moment "
+            "and try again.")
     try:
-        produced = _invoke_service(service_fn, inputs, outdir, options)
-    except ToolError:
-        raise
-    except Exception:
-        current_app.logger.exception("service failed for job %s", job_id)
-        raise ToolError("The tool failed while processing your files. "
-                        "Please check the inputs and try again.")
+        try:
+            produced = _invoke_service(service_fn, inputs, outdir, options)
+        except ToolError:
+            raise
+        except Exception:
+            current_app.logger.exception("service failed for job %s", job_id)
+            raise ToolError("The tool failed while processing your files. "
+                            "Please check the inputs and try again.")
+        finally:
+            manifest = _load_manifest(job_id)
+            manifest["done"] = True
+            _save_manifest(job_id, manifest)
     finally:
-        manifest = _load_manifest(job_id)
-        manifest["done"] = True
-        _save_manifest(job_id, manifest)
+        sem.release()
 
     if isinstance(produced, (str, os.PathLike)):
         produced = [produced]
@@ -281,10 +290,20 @@ def _invoke_service(service_fn, inputs, outdir, options):
 def _finalize_outputs(job_id: str, manifest: dict,
                       produced: list[Path]) -> list[dict]:
     """Record produced files in the manifest; return display entries."""
+    out_root = _output_dir(job_id).resolve()
     first_in = (manifest.get("inputs") or [{}])[0].get("name") or "output"
     stem = os.path.splitext(os.path.basename(first_in))[0] or "output"
     entries = []
     for i, p in enumerate(produced):
+        p = Path(p).resolve()
+        try:
+            p.relative_to(out_root)
+        except ValueError as exc:
+            raise ToolError("The tool wrote a file outside the job output "
+                            "directory.") from exc
+        if not p.is_file():
+            raise ToolError("The tool finished but did not produce its output "
+                            "files.")
         if len(produced) == 1:
             # name the single output after the first INPUT's display name
             display = safe_display_name(f"{stem}{p.suffix.lower() or '.pdf'}")
@@ -433,6 +452,11 @@ def _output_entry(job_id: str, index: int) -> dict:
     abort(404)
 
 
+def _confined_output(job_id: str, stored_path: str | os.PathLike) -> Path:
+    """Resolve a manifest output path and jail it under outputs/<job_id>/."""
+    return confined_under(_output_dir(job_id), Path(stored_path))
+
+
 @jobs_bp.get("/dl/<job_id>/<int:index>")
 def download_one(job_id: str, index: int):
     """Serve one output file. Content-Disposition = sanitized original stem
@@ -440,9 +464,7 @@ def download_one(job_id: str, index: int):
     if not _valid_job_id(job_id):
         abort(404)
     entry = _output_entry(job_id, index)
-    path = Path(entry["path"])
-    if not path.is_file():
-        abort(404)
+    path = _confined_output(job_id, entry["path"])
     stem, ext = os.path.splitext(entry["name"])
     download_name = f"{stem[:80]}-{job_id[:8]}{ext.lower()}"
     return send_file(path, as_attachment=True, download_name=download_name,
@@ -454,15 +476,17 @@ def download_all(job_id: str):
     """Multiple outputs -> one zip built on the fly (in memory) and served."""
     if not _valid_job_id(job_id):
         abort(404)
+    # No directory listing: only serve files recorded in the job manifest,
+    # each re-checked to live under outputs/<job_id>/.
     manifest = _load_manifest(job_id)
     outs = manifest.get("outputs", [])
-    paths = [Path(e["path"]) for e in outs]
-    if not paths or not all(p.is_file() for p in paths):
+    if not outs:
         abort(404)
+    paths = [_confined_output(job_id, e["path"]) for e in outs]
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
         seen: dict[str, int] = {}
-        for e, p in zip(outs, paths):
+        for e, p in zip(outs, paths, strict=True):
             name = safe_display_name(e["name"])
             if name in seen:  # dedupe display-name collisions inside zip
                 seen[name] += 1

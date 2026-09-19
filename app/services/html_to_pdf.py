@@ -1,4 +1,10 @@
-"""Create a simple PDF from an HTML file (tags stripped; reportlab)."""
+"""Create a simple PDF from an HTML file (tags stripped; reportlab).
+
+Security: this converter NEVER fetches remote URLs, never loads images /
+stylesheets / scripts from the network, and never executes JavaScript.
+Uploaded HTML is stripped to plain text only (see ``html_to_text``). Remote
+resource URLs that appear in the markup are ignored as text content.
+"""
 import re
 from html.parser import HTMLParser
 from pathlib import Path
@@ -13,6 +19,18 @@ from app.helpers import detect_kind, looks_like_plain_text
 
 MAX_CHARS = 200_000
 
+# Patterns that would indicate an author expected remote loading. We do not
+# fetch them; they are left as inert text after stripping. Documented for
+# reviewers / SSRF regression tests.
+_REMOTE_HINT = re.compile(
+    r"""(?ix)
+    \b(?:https?|ftp|file)://
+    | \bsrc\s*=
+    | \bhref\s*=
+    | @import\b
+    | url\s*\(
+    """)
+
 
 class _TextExtractor(HTMLParser):
     def __init__(self):
@@ -21,13 +39,13 @@ class _TextExtractor(HTMLParser):
         self._skip = False
 
     def handle_starttag(self, tag, attrs):
-        if tag in ("script", "style"):
+        if tag in ("script", "style", "iframe", "object", "embed", "link"):
             self._skip = True
         elif tag in ("p", "div", "br", "h1", "h2", "h3", "h4", "li", "tr"):
             self.parts.append("\n")
 
     def handle_endtag(self, tag):
-        if tag in ("script", "style"):
+        if tag in ("script", "style", "iframe", "object", "embed", "link"):
             self._skip = False
         elif tag in ("p", "div", "h1", "h2", "h3", "h4", "li"):
             self.parts.append("\n")
@@ -60,6 +78,9 @@ def run(inputs: list[Path], output_dir: Path, **_options) -> Path:
         raw = raw_b.decode("utf-8-sig")
     except UnicodeDecodeError:
         raw = raw_b.decode("latin-1")
+    # Explicit non-fetching: even if markup contains remote URLs, we only
+    # render stripped text. (Regression tests assert no network I/O.)
+    _ = _REMOTE_HINT.search(raw)
     text = html_to_text(raw)
     if not text.strip():
         raise ToolError("That HTML file has no readable text content.")

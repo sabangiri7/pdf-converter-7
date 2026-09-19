@@ -1,5 +1,6 @@
-"""Shared error types + Flask error handlers."""
+﻿"""Shared error types + Flask error handlers."""
 from flask import render_template
+from flask_wtf.csrf import CSRFError
 from werkzeug.exceptions import HTTPException
 
 
@@ -20,6 +21,14 @@ def register_error_handlers(app):
     def on_tool_error(exc):
         return render_template("error.html", message=exc.message), 400
 
+    @app.errorhandler(CSRFError)
+    def on_csrf_error(exc):
+        return render_template(
+            "error.html",
+            message="This form expired or was missing a security token. "
+                    "Please reload the page and try again.",
+        ), 400
+
     @app.errorhandler(404)
     def on_not_found(exc):
         return render_template(
@@ -38,6 +47,14 @@ def register_error_handlers(app):
                     f"compressing it first.",
         ), 413
 
+    @app.errorhandler(429)
+    def on_rate_limited(exc):
+        return render_template(
+            "error.html",
+            message="Too many requests from this address. Please wait a minute "
+                    "and try again.",
+        ), 429
+
     @app.errorhandler(Exception)
     def on_internal_error(exc):
         if isinstance(exc, HTTPException):
@@ -48,3 +65,4 @@ def register_error_handlers(app):
             message="Something went wrong on our side while handling that request. "
                     "Please try again.",
         ), 500
+

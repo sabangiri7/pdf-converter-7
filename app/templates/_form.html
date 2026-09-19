@@ -28,6 +28,7 @@
                      submit_label="Process") %}
 <form method="post" action="{{ action }}" enctype="multipart/form-data"
       class="tool-form">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="dropzone" data-multiple="{{ 'true' if multiple else 'false' }}"
        data-accept="{{ accept }}">
     <input type="file" name="files" id="files" accept="{{ accept }}"

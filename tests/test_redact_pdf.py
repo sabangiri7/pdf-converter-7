@@ -16,6 +16,10 @@ def _upload(pdf_path: Path, filename="x.pdf"):
 def test_service_ok(sample_pdf_2p, sample_pdf_3p, tmp_path):
     out = run([sample_pdf_2p], tmp_path, find="Page")
     assert out.is_file() and out.read_bytes().startswith(b"%PDF")
+    # Redacted token must not remain extractable.
+    text = "".join((p.extract_text() or "") for p in PdfReader(str(out)).pages)
+    # sample PDFs contain "Page"; after redaction it should be gone
+    assert "Page" not in text
 
 
 def test_service_rejects_bad_input(tmp_path):
@@ -28,7 +32,7 @@ def test_service_rejects_bad_input(tmp_path):
 def test_get_page(client):
     r = client.get("/t/redact_pdf")
     assert r.status_code == 200
-    assert 'Redact PDF'.encode() in r.data
+    assert b"Redact PDF" in r.data
 
 
 def test_route_roundtrip(client, sample_pdf_2p, sample_pdf_3p):

@@ -1,0 +1,40 @@
+[project]
+name = "pdf-tools"
+version = "0.1.0"
+description = "Local / self-hosted Flask PDF tools"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+omit = ["app/tools/*"]
+
+[tool.coverage.report]
+fail_under = 55
+show_missing = true
+skip_empty = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "instance", "samples"]
+
+[tool.ruff.lint]
+# Keep CI focused on correctness + obvious security footguns; style debt
+# (B904 raise-from, unused imports in older modules) is tracked separately.
+select = ["E", "F", "W", "S102", "S307", "S324"]
+ignore = [
+  "E501",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S"]
+"scripts/**" = ["S"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "samples"]
+skips = ["B101"]

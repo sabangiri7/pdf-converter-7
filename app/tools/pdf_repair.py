@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
 
 from app.jobs import create_job, run_job, save_uploads
 from app.services.pdf_repair import run

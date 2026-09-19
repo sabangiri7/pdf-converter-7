@@ -188,7 +188,7 @@ Includes LibreOffice, Tesseract (English), and Ghostscript. No host Python insta
 
 ```bash
 docker build -t pdf-tools .
-docker run --rm -p 5000:5000 \
+docker run --rm -p 127.0.0.1:5000:5000 \
   -e PDF_TOOLS_SECRET_KEY="$(openssl rand -hex 32)" \
   pdf-tools
 ```
@@ -197,8 +197,8 @@ Windows PowerShell (secret):
 
 ```powershell
 docker build -t pdf-tools .
-docker run --rm -p 5000:5000 `
-  -e PDF_TOOLS_SECRET_KEY="change-me-to-a-long-random-string" `
+docker run --rm -p 127.0.0.1:5000:5000 `
+  -e PDF_TOOLS_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_hex(32))')" `
   pdf-tools
 ```
 
@@ -208,12 +208,12 @@ Open **http://127.0.0.1:5000**
 
 ```bash
 cp .env.example .env
-# edit PDF_TOOLS_SECRET_KEY in .env
+# edit PDF_TOOLS_SECRET_KEY in .env (required — must be a long random string)
 
 docker compose up --build
 ```
 
-- App: http://127.0.0.1:5000  
+- App: http://127.0.0.1:5000 (published on loopback only)
 - Job data persisted in the `pdf_tools_data` volume under `/app/instance`
 
 Stop:
@@ -226,7 +226,9 @@ docker compose down
 
 - First build can take several minutes (LibreOffice is large).
 - OCR / Office conversion can take longer than a normal HTTP request; the image uses gunicorn `--timeout 300`.
-- Put Cloudflare (or another reverse proxy) in front of the container/VPS if you need a public domain — this is a full server app, not a Cloudflare Worker.
+- The image does **not** bake a secret; pass `PDF_TOOLS_SECRET_KEY` or the process exits.
+- Put Cloudflare (or another reverse proxy) in front only after adding auth + TLS — this is a full server app, not a Cloudflare Worker.
+- Compose hardening (`read_only`, `cap_drop`, resource limits) does **not** replace a sandbox for hostile PDFs.
 
 ---
 
@@ -237,18 +239,25 @@ docker compose down
 | `PDF_TOOLS_HOST` | `127.0.0.1` (Docker: `0.0.0.0`) | Bind address |
 | `PDF_TOOLS_PORT` | `5000` | Port |
 | `PDF_TOOLS_DEBUG` | `1` locally / `0` in Docker | Flask debug |
-| `PDF_TOOLS_CONFIG` | `development` / `default` in Docker | Config profile |
-| `PDF_TOOLS_SECRET_KEY` | weak dev default | **Change for any shared/public deploy** |
+| `PDF_TOOLS_CONFIG` | `development` locally / `production` in Docker | Config profile |
+| `PDF_TOOLS_SECRET_KEY` | weak **dev-only** default | **Required** (≥32 chars) for production/Docker |
+| `PUBLIC_DEPLOY` | `false` | When `true`, forces secure cookies + strong secret |
+| `PDF_TOOLS_COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
 | `PDF_TOOLS_MAX_FILE_MB` | `50` | Max size per uploaded file |
 | `PDF_TOOLS_MAX_FILES` | `20` | Max files per request |
 | `PDF_TOOLS_MAX_PAGES` | `200` | Max PDF pages |
+| `PDF_TOOLS_MAX_CONCURRENT_JOBS` | `2` | Parallel conversion jobs per process |
+| `PDF_TOOLS_MAX_IMAGE_PIXELS` | `40000000` | Pillow decompression bomb cap |
 | `PDF_TOOLS_JOB_TTL_SECONDS` | `3600` | How long uploads/outputs are kept |
+| `PDF_TOOLS_RATELIMIT` | `true` | Enable Flask-Limiter |
+| `PDF_TOOLS_RATELIMIT_DEFAULT` | `120/hour;30/min` | Global limit |
+| `PDF_TOOLS_RATELIMIT_POST` | `20/min` | Tool POST limit |
 
 Example (Linux/macOS):
 
 ```bash
 export PDF_TOOLS_PORT=8080
-export PDF_TOOLS_SECRET_KEY="your-long-secret"
+export PDF_TOOLS_SECRET_KEY="$(openssl rand -hex 32)"
 python run.py
 ```
 
@@ -256,11 +265,33 @@ Windows PowerShell:
 
 ```powershell
 $env:PDF_TOOLS_PORT = "8080"
-$env:PDF_TOOLS_SECRET_KEY = "your-long-secret"
+$env:PDF_TOOLS_SECRET_KEY = (python -c "import secrets; print(secrets.token_hex(32))")
 python run.py
 ```
 
 See also `.env.example` for Compose.
+
+---
+
+## Production security
+
+This app is designed for **local** or **private self-host** use. Defaults:
+
+- Bind **`127.0.0.1`** outside Docker (`run.py`).
+- **`PUBLIC_DEPLOY=false`**.
+- CSRF on all tool forms, security headers, rate limits, upload/page/concurrency caps.
+- Job downloads require an opaque 32-hex `job_id` (no directory listing); paths are confined under `instance/outputs/<job_id>/`.
+- HTML→PDF **never** fetches remote URLs (text strip only).
+- Docker Compose: non-root, `cap_drop: ALL`, `no-new-privileges`, read-only rootfs, memory/CPU/pids limits, publish on `127.0.0.1` only.
+
+**Before any shared deploy:**
+
+1. Set `PDF_TOOLS_SECRET_KEY` to a long random value (app **refuses** weak defaults in production).
+2. Terminate **TLS** at a reverse proxy; set `PDF_TOOLS_COOKIE_SECURE=true`.
+3. Add **authentication** (proxy SSO / basic auth / VPN). The app has no user accounts.
+4. Keep `PUBLIC_DEPLOY=false` unless you have reviewed `docs/SECURITY_AUDIT.md`.
+
+**Honest limits:** LibreOffice/OCR still parse untrusted files in-process; UUID download links are capability URLs; there is no multi-tenant auth. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 
 ---
 
@@ -302,4 +333,6 @@ Adding a tool: [CONTRACT.md](CONTRACT.md)
 
 ## License / use
 
-Intended for local or self-hosted use. Do not expose publicly without a strong `PDF_TOOLS_SECRET_KEY`, HTTPS, and appropriate upload limits.
+Intended for local or self-hosted private use. Do not expose on the public internet without TLS, authentication at the proxy, a strong `PDF_TOOLS_SECRET_KEY`, and review of [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
+
+Vulnerability reports: [SECURITY.md](SECURITY.md).

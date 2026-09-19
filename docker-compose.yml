@@ -1,21 +1,54 @@
 # Local / VPS Docker Compose for PDF Tools
+#
+# REQUIRED: set PDF_TOOLS_SECRET_KEY in .env (openssl rand -hex 32).
+# Weak/default secrets cause the app to refuse to start.
+#
+# Remaining limits (document in README / SECURITY.md):
+# - LibreOffice / Tesseract still run in-process as appuser (not a separate
+#   network-none worker). Cap CPU/memory below; isolate further with gVisor
+#   or Firecracker if you need stronger sandboxing for untrusted PDFs.
+# - PUBLIC_DEPLOY=false by default — do not flip without TLS + review.
+
 services:
   pdf-tools:
     build: .
     image: pdf-tools:local
     ports:
-      - "${PDF_TOOLS_PORT:-5000}:5000"
+      - "127.0.0.1:${PDF_TOOLS_PORT:-5000}:5000"
     environment:
       PDF_TOOLS_HOST: "0.0.0.0"
       PDF_TOOLS_PORT: "5000"
       PDF_TOOLS_DEBUG: "0"
-      PDF_TOOLS_CONFIG: "default"
-      PDF_TOOLS_SECRET_KEY: "${PDF_TOOLS_SECRET_KEY:-change-me-in-production}"
+      PDF_TOOLS_CONFIG: "production"
+      PDF_TOOLS_SECRET_KEY: "${PDF_TOOLS_SECRET_KEY:?set PDF_TOOLS_SECRET_KEY in .env}"
       PDF_TOOLS_MAX_FILE_MB: "${PDF_TOOLS_MAX_FILE_MB:-50}"
+      PDF_TOOLS_MAX_FILES: "${PDF_TOOLS_MAX_FILES:-20}"
+      PDF_TOOLS_MAX_PAGES: "${PDF_TOOLS_MAX_PAGES:-200}"
+      PDF_TOOLS_MAX_CONCURRENT_JOBS: "${PDF_TOOLS_MAX_CONCURRENT_JOBS:-2}"
       PDF_TOOLS_JOB_TTL_SECONDS: "${PDF_TOOLS_JOB_TTL_SECONDS:-3600}"
+      PDF_TOOLS_COOKIE_SECURE: "${PDF_TOOLS_COOKIE_SECURE:-false}"
+      PUBLIC_DEPLOY: "${PUBLIC_DEPLOY:-false}"
+      TMPDIR: "/tmp/pdf-tools"
     volumes:
-      # Persist uploads/outputs across restarts (optional)
       - pdf_tools_data:/app/instance
+    tmpfs:
+      - /tmp/pdf-tools:size=512m,mode=1777
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+    mem_limit: 2g
+    cpus: 2.0
+    pids_limit: 512
     restart: unless-stopped
 
 volumes:

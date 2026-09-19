@@ -44,11 +44,21 @@ def run(inputs: list[Path], output_dir: Path, *, find: str = "",
                 page.add_redact_annot(rect, fill=(0, 0, 0))
                 hits += 1
             if rects:
-                page.apply_redactions()
+                # Permanently remove text/images/vector art under the boxes
+                # (not just paint black overlays).
+                page.apply_redactions(
+                    images=pymupdf.PDF_REDACT_IMAGE_PIXELS,
+                    graphics=pymupdf.PDF_REDACT_LINE_ART_REMOVE_IF_TOUCHED,
+                    text=pymupdf.PDF_REDACT_TEXT_REMOVE,
+                )
         if hits == 0:
+            # Do not echo raw user find-text beyond a short, escaped preview
+            # in the friendly error (templates autoescape; keep short).
+            preview = find[:60].replace('"', "'")
             raise ToolError(
-                f'No occurrences of "{find[:60]}" were found to redact.')
-        doc.save(str(out), garbage=4, deflate=True)
+                f'No occurrences of "{preview}" were found to redact.')
+        # garbage=4 drops unused objects so redacted streams are not retained
+        doc.save(str(out), garbage=4, deflate=True, clean=True)
     except ToolError:
         raise
     except Exception:

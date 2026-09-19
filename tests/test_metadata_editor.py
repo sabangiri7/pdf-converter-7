@@ -3,7 +3,6 @@ import io
 from pathlib import Path
 
 import pytest
-from pypdf import PdfReader
 
 from app.errors import ToolError
 from app.services.metadata_editor import run

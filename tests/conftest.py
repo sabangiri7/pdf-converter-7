@@ -17,7 +17,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from app import create_app  # noqa: E402
-from app.config import TestingConfig  # noqa: E402
 
 SAMPLES = ROOT / "samples"
 
