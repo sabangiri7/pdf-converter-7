@@ -55,3 +55,9 @@ until you:
   and add `gswin64c` to `PATH`.
 
 After installing, restart the Flask process so it inherits the new `PATH`.
+
+## Docker
+
+The project `Dockerfile` already installs LibreOffice, Tesseract (eng), and
+Ghostscript. Prefer `docker compose up --build` for a full stack without
+host installs. See the main [README.md](README.md#docker).

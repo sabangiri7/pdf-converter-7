@@ -1,0 +1,22 @@
+# Local / VPS Docker Compose for PDF Tools
+services:
+  pdf-tools:
+    build: .
+    image: pdf-tools:local
+    ports:
+      - "${PDF_TOOLS_PORT:-5000}:5000"
+    environment:
+      PDF_TOOLS_HOST: "0.0.0.0"
+      PDF_TOOLS_PORT: "5000"
+      PDF_TOOLS_DEBUG: "0"
+      PDF_TOOLS_CONFIG: "default"
+      PDF_TOOLS_SECRET_KEY: "${PDF_TOOLS_SECRET_KEY:-change-me-in-production}"
+      PDF_TOOLS_MAX_FILE_MB: "${PDF_TOOLS_MAX_FILE_MB:-50}"
+      PDF_TOOLS_JOB_TTL_SECONDS: "${PDF_TOOLS_JOB_TTL_SECONDS:-3600}"
+    volumes:
+      # Persist uploads/outputs across restarts (optional)
+      - pdf_tools_data:/app/instance
+    restart: unless-stopped
+
+volumes:
+  pdf_tools_data:
