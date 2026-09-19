@@ -1,0 +1,8 @@
+{
+  "slug": "watermark",
+  "title": "Watermark PDF",
+  "description": "Stamp text (or an image) over every page of your PDF.",
+  "icon": "🎨",
+  "accept": ".pdf",
+  "multiple": false
+}

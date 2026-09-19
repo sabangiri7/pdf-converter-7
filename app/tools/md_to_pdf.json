@@ -1,0 +1,8 @@
+{
+  "slug": "md_to_pdf",
+  "title": "Markdown to PDF",
+  "description": "Convert a Markdown (.md) file into a simple PDF.",
+  "icon": "\ud83d\udcd1",
+  "accept": ".md,.markdown,text/markdown",
+  "multiple": false
+}

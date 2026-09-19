@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/pdf_to_excel', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert to Excel') %}
+
+  {% endcall %}
+</section>
+{% endblock %}

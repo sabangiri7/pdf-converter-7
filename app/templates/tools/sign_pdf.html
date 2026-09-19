@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/sign_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Sign PDF') %}
+    <label>Signer name
+      <input type="text" name="name" maxlength="80" required placeholder="Jane Doe">
+    </label>
+    <p class="option-note">Optional: include one PNG/JPG signature image with the PDF.
+      Visual stamp only — not a cryptographic digital signature.</p>
+  {% endcall %}
+</section>
+{% endblock %}

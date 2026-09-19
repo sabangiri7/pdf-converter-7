@@ -1,0 +1,8 @@
+{
+  "slug": "remove_annotations",
+  "title": "Remove Annotations",
+  "description": "Strip comments, highlights, and other annotations.",
+  "icon": "\ud83e\uddfd",
+  "accept": ".pdf",
+  "multiple": false
+}

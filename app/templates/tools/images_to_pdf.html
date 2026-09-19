@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/images_to_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert to PDF') %}
+    <label>Page size
+      <select name="page_size">
+        <option value="fit" selected>Fit to image</option>
+        <option value="a4">A4</option>
+      </select>
+    </label>
+    <label>Margin (A4 only)
+      <select name="margin">
+        <option value="none" selected>None</option>
+        <option value="small">Small</option>
+        <option value="big">Big</option>
+      </select>
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

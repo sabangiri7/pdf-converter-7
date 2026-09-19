@@ -1,0 +1,8 @@
+{
+  "slug": "compress",
+  "title": "Compress PDF",
+  "description": "Shrink a PDF's file size while keeping the best possible quality.",
+  "icon": "💨",
+  "accept": ".pdf",
+  "multiple": false
+}

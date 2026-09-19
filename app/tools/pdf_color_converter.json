@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_color_converter",
+  "title": "PDF Color Converter",
+  "description": "Re-render pages as grayscale, RGB, or CMYK.",
+  "icon": "\ud83c\udfa8",
+  "accept": ".pdf",
+  "multiple": false
+}

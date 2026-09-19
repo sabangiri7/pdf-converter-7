@@ -1,0 +1,8 @@
+{
+  "slug": "html_to_pdf",
+  "title": "HTML to PDF",
+  "description": "Turn a simple HTML file into a PDF (text layout only).",
+  "icon": "\ud83c\udf0d",
+  "accept": ".html,.htm,text/html",
+  "multiple": false
+}

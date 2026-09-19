@@ -1,0 +1,8 @@
+{
+  "slug": "header_footer",
+  "title": "Header & Footer",
+  "description": "Add header and/or footer text to every page.",
+  "icon": "\ud83e\uddfe",
+  "accept": ".pdf",
+  "multiple": false
+}

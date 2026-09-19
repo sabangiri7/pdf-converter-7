@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_booklet",
+  "title": "PDF Booklet",
+  "description": "Impose pages into a saddle-stitch booklet layout.",
+  "icon": "\ud83d\udcd6",
+  "accept": ".pdf",
+  "multiple": false
+}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/crop_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Crop PDF') %}
+    <label>Left (pt) <input type="number" name="left" min="0" max="500" step="1" value="36"></label>
+    <label>Right (pt) <input type="number" name="right" min="0" max="500" step="1" value="36"></label>
+    <label>Top (pt) <input type="number" name="top" min="0" max="500" step="1" value="36"></label>
+    <label>Bottom (pt) <input type="number" name="bottom" min="0" max="500" step="1" value="36"></label>
+  {% endcall %}
+</section>
+{% endblock %}

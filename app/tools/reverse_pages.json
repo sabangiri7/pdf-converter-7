@@ -1,0 +1,8 @@
+{
+  "slug": "reverse_pages",
+  "title": "Reverse Page Order",
+  "description": "Reverse the order of all pages in a PDF.",
+  "icon": "\ud83d\udd04",
+  "accept": ".pdf",
+  "multiple": false
+}

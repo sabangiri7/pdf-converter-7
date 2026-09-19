@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}PDF Tools — pick a tool{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Every tool you need to work with PDFs</h1>
+  <p class="sub">Free, simple, in your browser. Upload, pick options,
+  download — files vanish after an hour.</p>
+</section>
+
+{% if essentials %}
+<section class="tool-essentials" aria-label="Essential tools">
+  <div class="tool-grid">
+    {% for t in essentials %}
+    <a class="tool-card {% if not t.available %}disabled{% endif %}"
+       {% if t.available %}href="{{ t.url }}"{% else %}aria-disabled="true"{% endif %}>
+      <span class="tool-icon">{{ t.icon }}</span>
+      <span class="tool-title">{{ t.title }}</span>
+      <span class="tool-desc">{{ t.description }}</span>
+      {% if not t.available %}<span class="badge-soon">coming soon</span>{% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if more_categories %}
+<details class="more-tools">
+  <summary class="more-tools-summary">
+    <span class="more-tools-summary-label">More tools</span>
+    <span class="more-tools-summary-hint">Browse by category</span>
+  </summary>
+  <div class="more-tools-body">
+    {% for cat in more_categories %}
+    <section class="tool-category">
+      <h2 class="tool-category-title">{{ cat.title }}</h2>
+      <ul class="more-tools-list">
+        {% for t in cat.tools %}
+        <li class="more-tools-item {% if not t.available %}disabled{% endif %}">
+          {% if t.available %}
+          <a class="more-tools-link" href="{{ t.url }}">
+            <span class="more-tools-icon" aria-hidden="true">{{ t.icon }}</span>
+            <span class="more-tools-text">
+              <span class="more-tools-title">{{ t.title }}</span>
+              <span class="more-tools-desc">{{ t.description }}</span>
+            </span>
+          </a>
+          {% else %}
+          <span class="more-tools-link" aria-disabled="true">
+            <span class="more-tools-icon" aria-hidden="true">{{ t.icon }}</span>
+            <span class="more-tools-text">
+              <span class="more-tools-title">{{ t.title }}</span>
+              <span class="more-tools-desc">{{ t.description }}</span>
+            </span>
+            <span class="badge-soon">coming soon</span>
+          </span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</details>
+{% endif %}
+{% endblock %}

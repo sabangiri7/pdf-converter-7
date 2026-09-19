@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/pdf_color_converter', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert Colors') %}
+    <label>Color mode
+      <select name="mode">
+        <option value="grayscale" selected>Grayscale</option>
+        <option value="rgb">RGB</option>
+        <option value="cmyk">CMYK</option>
+      </select>
+    </label>
+    <label>DPI
+      <input type="number" name="dpi" min="72" max="300" value="150">
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

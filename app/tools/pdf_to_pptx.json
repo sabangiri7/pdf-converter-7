@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_pptx",
+  "title": "PDF to PowerPoint",
+  "description": "Turn each PDF page into a PowerPoint slide (page as image). Pure Python — no LibreOffice needed.",
+  "icon": "📊",
+  "accept": ".pdf",
+  "multiple": false
+}

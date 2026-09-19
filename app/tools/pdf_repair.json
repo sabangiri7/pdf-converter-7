@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_repair",
+  "title": "PDF Repair",
+  "description": "Rewrite a PDF to fix common structural issues.",
+  "icon": "\ud83d\udd27",
+  "accept": ".pdf",
+  "multiple": false
+}

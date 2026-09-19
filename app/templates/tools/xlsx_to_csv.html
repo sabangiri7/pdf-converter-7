@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/xlsx_to_csv', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert to CSV') %}
+    <p class="option-note">Upload a modern Excel <strong>.xlsx</strong> file.
+      Only the first worksheet is exported. Old <strong>.xls</strong> files
+      are not supported — re-save as .xlsx first.</p>
+  {% endcall %}
+</section>
+{% endblock %}

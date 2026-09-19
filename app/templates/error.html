@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Something went wrong — PDF Tools{% endblock %}
+{% block content %}
+<section class="result-card">
+  <h1>Sorry, that didn't work</h1>
+  <p class="error-detail">{{ message }}</p>
+  <p><a class="btn-primary" href="{{ url_for('index') }}">Back to all tools</a></p>
+</section>
+{% endblock %}

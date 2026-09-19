@@ -1,0 +1,8 @@
+{
+  "slug": "extract_images",
+  "title": "Extract Images from PDF",
+  "description": "Pull embedded images out of a PDF.",
+  "icon": "\ud83d\udcf7",
+  "accept": ".pdf",
+  "multiple": false
+}

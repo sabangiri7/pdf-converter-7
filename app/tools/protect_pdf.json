@@ -1,0 +1,8 @@
+{
+  "slug": "protect_pdf",
+  "title": "Protect PDF",
+  "description": "Add a password so the PDF requires it to open.",
+  "icon": "🔒",
+  "accept": ".pdf,application/pdf",
+  "multiple": false
+}

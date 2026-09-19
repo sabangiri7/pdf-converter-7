@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_svg",
+  "title": "PDF to SVG",
+  "description": "Export each PDF page as an SVG file.",
+  "icon": "\ud83d\uddbc\ufe0f",
+  "accept": ".pdf",
+  "multiple": false
+}

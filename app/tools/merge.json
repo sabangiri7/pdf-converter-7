@@ -1,0 +1,8 @@
+{
+  "slug": "merge",
+  "title": "Merge PDF",
+  "description": "Combine two or more PDFs into one document, in the order you choose.",
+  "icon": "🗂",
+  "accept": ".pdf",
+  "multiple": true
+}

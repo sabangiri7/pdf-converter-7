@@ -1,0 +1,8 @@
+{
+  "slug": "crop_pdf",
+  "title": "Crop PDF",
+  "description": "Crop every page by margins (in points; 72 pt = 1 inch).",
+  "icon": "\u2702\ufe0f",
+  "accept": ".pdf",
+  "multiple": false
+}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/split', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Split PDF') %}
+    <label for="mode">Split option
+      <select name="mode" id="mode">
+        <option value="extract" selected>Extract page ranges (one PDF)</option>
+        <option value="all">Every page as a separate PDF</option>
+        <option value="odd">Odd pages only (1, 3, 5…)</option>
+        <option value="even">Even pages only (2, 4, 6…)</option>
+        <option value="from">From page N to the end</option>
+        <option value="to">First page through page N</option>
+        <option value="chunks">Fixed-size chunks (every N pages)</option>
+      </select>
+    </label>
+
+    <label for="ranges" data-for-modes="extract" class="split-opt">
+      Pages to extract
+      <input type="text" id="ranges" name="ranges"
+             placeholder="e.g. 1-3,5" autocomplete="off">
+      <span class="field-hint">Comma-separated, e.g. <strong>1-3,5</strong>.
+        Leave blank to keep every page.</span>
+    </label>
+
+    <label for="page" data-for-modes="from to" class="split-opt" hidden>
+      Page number
+      <input type="number" id="page" name="page" min="1" step="1"
+             placeholder="e.g. 3" autocomplete="off">
+      <span class="field-hint">1-based page number in the PDF.</span>
+    </label>
+
+    <label for="chunk_size" data-for-modes="chunks" class="split-opt" hidden>
+      Pages per file
+      <input type="number" id="chunk_size" name="chunk_size" min="1" step="1"
+             placeholder="e.g. 2" autocomplete="off">
+      <span class="field-hint">Each output PDF will contain this many pages
+        (the last one may be shorter).</span>
+    </label>
+  {% endcall %}
+</section>
+<script>
+(function () {
+  var select = document.getElementById("mode");
+  if (!select) return;
+  var opts = document.querySelectorAll(".split-opt");
+  function sync() {
+    var mode = select.value;
+    opts.forEach(function (el) {
+      var modes = (el.getAttribute("data-for-modes") || "").split(/\s+/);
+      var show = modes.indexOf(mode) !== -1;
+      el.hidden = !show;
+      var input = el.querySelector("input");
+      if (input) input.disabled = !show;
+    });
+  }
+  select.addEventListener("change", sync);
+  sync();
+})();
+</script>
+{% endblock %}

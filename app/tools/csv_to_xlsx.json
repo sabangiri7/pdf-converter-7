@@ -1,0 +1,8 @@
+{
+  "slug": "csv_to_xlsx",
+  "title": "CSV to Excel",
+  "description": "Convert a CSV spreadsheet into an Excel .xlsx workbook (openpyxl — no LibreOffice needed).",
+  "icon": "📗",
+  "accept": ".csv,text/csv",
+  "multiple": false
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "fill_pdf_forms",
+  "title": "Fill PDF Forms",
+  "description": "Fill AcroForm text fields (name=value lines).",
+  "icon": "\ud83d\udccb",
+  "accept": ".pdf",
+  "multiple": false
+}

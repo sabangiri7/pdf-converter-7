@@ -1,0 +1,8 @@
+{
+  "slug": "images_to_pdf",
+  "title": "JPG to PDF",
+  "description": "Combine JPG, PNG, TIFF or WebP images into a single PDF.",
+  "icon": "📸",
+  "accept": ".jpg,.jpeg,.png,.tif,.tiff,.webp",
+  "multiple": true
+}

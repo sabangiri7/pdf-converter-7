@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_compare",
+  "title": "PDF Compare",
+  "description": "Compare two PDFs (page count + text-per-page) and download a report.",
+  "icon": "\ud83d\udd0d",
+  "accept": ".pdf",
+  "multiple": true
+}

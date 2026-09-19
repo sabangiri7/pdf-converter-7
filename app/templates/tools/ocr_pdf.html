@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/ocr_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Run OCR') %}
+    <label>OCR language
+      <select name="language">
+        <option value="eng" selected>English (eng)</option>
+        <option value="deu">German (deu)</option>
+        <option value="fra">French (fra)</option>
+        <option value="spa">Spanish (spa)</option>
+        <option value="ita">Italian (ita)</option>
+        <option value="por">Portuguese (por)</option>
+        <option value="nld">Dutch (nld)</option>
+      </select>
+    </label>
+    <p class="form-note">Works best on scanned (image) PDFs. Digital PDFs
+    from Word/Office or ones that already have selectable text are rejected
+    — they do not need OCR.</p>
+  {% endcall %}
+</section>
+{% endblock %}

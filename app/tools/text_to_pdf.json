@@ -1,0 +1,8 @@
+{
+  "slug": "text_to_pdf",
+  "title": "Create PDF from Text",
+  "description": "Turn a plain .txt file into a simple PDF.",
+  "icon": "\ud83d\udcc4",
+  "accept": ".txt,text/plain",
+  "multiple": false
+}

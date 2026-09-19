@@ -1,0 +1,8 @@
+{
+  "slug": "page_numbers",
+  "title": "Add Page Numbers",
+  "description": "Stamp page numbers on every page of your PDF.",
+  "icon": "\ud83d\udd22",
+  "accept": ".pdf",
+  "multiple": false
+}

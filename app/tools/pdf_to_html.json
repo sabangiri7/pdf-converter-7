@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_html",
+  "title": "PDF to HTML",
+  "description": "Convert PDF pages into a simple HTML document.",
+  "icon": "\ud83c\udf10",
+  "accept": ".pdf",
+  "multiple": false
+}

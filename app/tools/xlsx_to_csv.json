@@ -1,0 +1,8 @@
+{
+  "slug": "xlsx_to_csv",
+  "title": "Excel to CSV",
+  "description": "Export the first sheet of an Excel .xlsx workbook to a UTF-8 CSV file.",
+  "icon": "📄",
+  "accept": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "multiple": false
+}

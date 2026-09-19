@@ -1,0 +1,8 @@
+{
+  "slug": "remove_metadata",
+  "title": "Remove Metadata",
+  "description": "Clear document metadata (title, author, XMP, etc.).",
+  "icon": "\ud83d\uddd1\ufe0f",
+  "accept": ".pdf",
+  "multiple": false
+}

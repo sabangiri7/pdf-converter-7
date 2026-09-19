@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/redact_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Redact') %}
+    <label>Text to redact
+      <input type="text" name="find" maxlength="200" required placeholder="e.g. confidential">
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

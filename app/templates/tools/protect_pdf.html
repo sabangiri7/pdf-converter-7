@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/protect_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Protect PDF') %}
+    <label for="password">Password
+      <input type="password" id="password" name="password" required
+             autocomplete="new-password" maxlength="128">
+    </label>
+    <p class="form-note">Choose a password you will remember — it cannot be
+      recovered from the file later.</p>
+  {% endcall %}
+</section>
+{% endblock %}

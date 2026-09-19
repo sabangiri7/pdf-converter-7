@@ -1,0 +1,8 @@
+{
+  "slug": "deskew_pdf",
+  "title": "Deskew PDF",
+  "description": "Best-effort straighten skewed scanned pages.",
+  "icon": "\ud83d\udcd0",
+  "accept": ".pdf",
+  "multiple": false
+}

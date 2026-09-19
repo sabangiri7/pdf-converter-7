@@ -1,0 +1,8 @@
+{
+  "slug": "metadata_editor",
+  "title": "PDF Metadata Editor",
+  "description": "Set or clear title, author, subject, and keywords.",
+  "icon": "\ud83c\udff7\ufe0f",
+  "accept": ".pdf",
+  "multiple": false
+}

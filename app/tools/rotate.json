@@ -1,0 +1,8 @@
+{
+  "slug": "rotate",
+  "title": "Rotate PDF",
+  "description": "Rotate all pages or just the ones you pick: 90, 180 or 270 degrees.",
+  "icon": "🔄",
+  "accept": ".pdf",
+  "multiple": false
+}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/header_footer', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Apply') %}
+    <label>Header
+      <input type="text" name="header" maxlength="120" placeholder="Optional header">
+    </label>
+    <label>Footer
+      <input type="text" name="footer" maxlength="120" placeholder="Optional footer">
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

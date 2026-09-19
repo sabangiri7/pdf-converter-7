@@ -1,0 +1,8 @@
+{
+  "slug": "ocr_pdf",
+  "title": "OCR PDF",
+  "description": "Recognize text in scanned PDFs and make them searchable (requires Tesseract / ocrmypdf on the server).",
+  "icon": "🔍",
+  "accept": ".pdf",
+  "multiple": false
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_excel",
+  "title": "PDF to Excel",
+  "description": "Export tables (or text) from a PDF into an Excel workbook.",
+  "icon": "\ud83d\udcca",
+  "accept": ".pdf",
+  "multiple": false
+}

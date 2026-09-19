@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_images",
+  "title": "PDF to JPG / PNG",
+  "description": "Convert every PDF page to JPG or PNG (PDF → JPG included). Rendered with PyMuPDF — no system tools needed.",
+  "icon": "🖼",
+  "accept": ".pdf",
+  "multiple": false
+}

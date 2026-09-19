@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/unlock_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Unlock PDF') %}
+    <label for="password">Current password
+      <input type="password" id="password" name="password" required
+             autocomplete="current-password" maxlength="128">
+    </label>
+    <p class="form-note">The password is only used to decrypt your upload and
+      is not stored.</p>
+  {% endcall %}
+</section>
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+  "slug": "remove_blank_pages",
+  "title": "Remove Blank Pages",
+  "description": "Drop pages that look empty (little text or ink).",
+  "icon": "\ud83e\uddf9",
+  "accept": ".pdf",
+  "multiple": false
+}

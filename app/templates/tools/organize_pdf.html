@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page tool-page--organize">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/organize_pdf', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Organize PDF') %}
+    <div class="organize-ui" id="organize-ui" hidden>
+      <div class="organize-toolbar">
+        <p class="organize-status" id="organize-status" aria-live="polite"></p>
+        <button type="button" class="btn-secondary organize-reset"
+                id="organize-reset">Restore all</button>
+      </div>
+      <p class="organize-error" id="organize-error" role="alert" hidden></p>
+      <ul class="organize-pages" id="organize-pages"
+          aria-label="PDF pages — drag to reorder"></ul>
+      <p class="organize-order" id="organize-order" aria-live="polite"></p>
+      <p class="form-note organize-hint">Drag pages to reorder. Use ↑ ↓ on
+        mobile, × to remove, ＋ to duplicate. Omitted pages are dropped from
+        the output.</p>
+    </div>
+    <input type="hidden" id="pages" name="pages" value="">
+  {% endcall %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+        defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ url_for('static', filename='js/organize_pdf.js') }}" defer></script>
+{% endblock %}

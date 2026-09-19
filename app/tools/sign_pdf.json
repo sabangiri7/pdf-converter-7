@@ -1,0 +1,8 @@
+{
+  "slug": "sign_pdf",
+  "title": "Sign PDF",
+  "description": "Stamp a visual Signed-by mark (optional image). Not a PKI certificate signature.",
+  "icon": "\u270d\ufe0f",
+  "accept": ".pdf,.png,.jpg,.jpeg,.webp",
+  "multiple": false
+}

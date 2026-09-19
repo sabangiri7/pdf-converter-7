@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_docx",
+  "title": "PDF to Word",
+  "description": "Extract selectable text from a PDF into a Word .docx file. Scanned PDFs should be OCR'd first.",
+  "icon": "📝",
+  "accept": ".pdf,application/pdf",
+  "multiple": false
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "nup",
+  "title": "PDF N-up",
+  "description": "Place 2, 4, 6, or 9 pages on each output sheet.",
+  "icon": "\ud83d\udcf0",
+  "accept": ".pdf",
+  "multiple": false
+}

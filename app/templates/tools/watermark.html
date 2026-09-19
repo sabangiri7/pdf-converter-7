@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/watermark', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Add Watermark') %}
+    <label>Watermark text
+      <input type="text" name="text" maxlength="200" required
+             placeholder="e.g. CONFIDENTIAL" autocomplete="off">
+    </label>
+    <label>Opacity (%)
+      <input type="number" name="opacity" min="5" max="100" step="1"
+             value="20">
+    </label>
+    <label>Position
+      <select name="position">
+        <option value="diagonal" selected>Diagonal</option>
+        <option value="center">Center</option>
+        <option value="top">Top</option>
+        <option value="bottom">Bottom</option>
+      </select>
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

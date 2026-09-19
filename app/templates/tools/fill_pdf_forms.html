@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/fill_pdf_forms', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Fill Form') %}
+    <label>Fields (one name=value per line)
+      <textarea name="fields" rows="6" required placeholder="FullName=Jane Doe"></textarea>
+    </label>
+    <p class="option-note">Only works on PDFs that already have fillable form fields.</p>
+  {% endcall %}
+</section>
+{% endblock %}

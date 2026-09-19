@@ -1,0 +1,8 @@
+{
+  "slug": "add_blank_pages",
+  "title": "Add Blank Pages",
+  "description": "Insert blank pages at a position (or at the end).",
+  "icon": "\u2b1c",
+  "accept": ".pdf",
+  "multiple": false
+}

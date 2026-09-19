@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/pdf_to_pptx', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert to PPTX') %}
+    <label>Resolution (DPI)
+      <input type="number" name="dpi" value="150" min="72" max="300" step="1">
+    </label>
+    <p class="option-note">Each PDF page becomes one slide with the page
+    rendered as an image. Editable text is not extracted.</p>
+  {% endcall %}
+</section>
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+  "slug": "image_convert",
+  "title": "Convert Image Format",
+  "description": "Convert among JPG, PNG, WEBP and TIFF with Pillow — upload one or more images.",
+  "icon": "🔄",
+  "accept": ".jpg,.jpeg,.png,.tif,.tiff,.webp",
+  "multiple": true
+}

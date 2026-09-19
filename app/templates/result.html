@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ tool_title }} — done{% endblock %}
+{% block content %}
+<section class="result-card">
+  <h1>{{ tool_title }}: all done</h1>
+  <p class="result-note">Your files are ready. Links stop working in about
+  one hour, so download them now.</p>
+
+  <ul class="output-list">
+    {% for o in outputs %}
+    <li>
+      <a class="btn-primary" href="{{ o.url }}">{{ o.display_name }}</a>
+      <span class="output-size">{{ o.size_h }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if zip_url %}
+  <p><a class="btn-secondary" href="{{ zip_url }}">Download all
+  ({{ outputs|length }} files, .zip)</a></p>
+  {% endif %}
+
+  <p class="again"><a href="{{ url_for('index') }}">Do another job</a></p>
+</section>
+{% endblock %}

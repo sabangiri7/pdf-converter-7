@@ -1,0 +1,8 @@
+{
+  "slug": "pdf_to_text",
+  "title": "PDF to Text",
+  "description": "Extract selectable text from a PDF into a .txt file.",
+  "icon": "\ud83d\udcdd",
+  "accept": ".pdf",
+  "multiple": false
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "redact_pdf",
+  "title": "Redact PDF",
+  "description": "Black out every occurrence of search text in a PDF.",
+  "icon": "\u2b1b",
+  "accept": ".pdf",
+  "multiple": false
+}

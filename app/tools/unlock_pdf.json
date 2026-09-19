@@ -1,0 +1,8 @@
+{
+  "slug": "unlock_pdf",
+  "title": "Unlock PDF",
+  "description": "Remove password protection from a PDF when you know the password.",
+  "icon": "🔓",
+  "accept": ".pdf,application/pdf",
+  "multiple": false
+}

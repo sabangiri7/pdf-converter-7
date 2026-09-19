@@ -1,0 +1,8 @@
+{
+  "slug": "flatten_pdf",
+  "title": "Flatten PDF",
+  "description": "Flatten form fields and strip annotations into static content.",
+  "icon": "\ud83e\udd5e",
+  "accept": ".pdf",
+  "multiple": false
+}

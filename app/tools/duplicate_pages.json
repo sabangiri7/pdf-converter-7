@@ -1,0 +1,8 @@
+{
+  "slug": "duplicate_pages",
+  "title": "Duplicate Pages",
+  "description": "Append copies of selected pages to the end of the PDF.",
+  "icon": "\u29c9",
+  "accept": ".pdf",
+  "multiple": false
+}

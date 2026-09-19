@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/rotate', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Rotate PDF') %}
+    <label>Rotation angle
+      <select name="angle">
+        <option value="90" selected>90° clockwise</option>
+        <option value="180">180°</option>
+        <option value="270">270° clockwise</option>
+      </select>
+    </label>
+    <label>Pages to rotate
+      <input type="text" name="pages" id="pages" placeholder="e.g. 1,3-4"
+             autocomplete="off">
+      <span class="field-hint">Leave blank to rotate every page.</span>
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}

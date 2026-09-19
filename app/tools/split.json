@@ -1,0 +1,8 @@
+{
+  "slug": "split",
+  "title": "Split PDF",
+  "description": "Extract page ranges, odd/even pages, from/to a page, or split into fixed-size chunks.",
+  "icon": "✂️",
+  "accept": ".pdf",
+  "multiple": false
+}

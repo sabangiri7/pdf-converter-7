@@ -1,0 +1,8 @@
+{
+  "slug": "grayscale_pdf",
+  "title": "Grayscale PDF",
+  "description": "Convert every page to grayscale.",
+  "icon": "\u26ab",
+  "accept": ".pdf",
+  "multiple": false
+}

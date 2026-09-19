@@ -1,0 +1,8 @@
+{
+  "slug": "organize_pdf",
+  "title": "Organize PDF",
+  "description": "Preview pages, then reorder or delete them before downloading the new PDF.",
+  "icon": "📑",
+  "accept": ".pdf,application/pdf",
+  "multiple": false
+}

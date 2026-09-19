@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_form.html" import upload_form %}
+{% block title %}{{ tool.title }} — PDF Tools{% endblock %}
+{% block content %}
+<section class="tool-page">
+  <h1>{{ tool.title }}</h1>
+  <p class="tool-lede">{{ tool.description }}</p>
+  {% call upload_form(action='/t/image_convert', accept=tool.accept,
+                      multiple=tool.multiple, submit_label='Convert images') %}
+    <label>Output format
+      <select name="format">
+        <option value="png" selected>PNG</option>
+        <option value="jpg">JPG</option>
+        <option value="webp">WEBP</option>
+        <option value="tiff">TIFF</option>
+      </select>
+    </label>
+  {% endcall %}
+</section>
+{% endblock %}
