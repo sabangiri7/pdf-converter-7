@@ -1,4 +1,4 @@
-﻿# Locked with: pip freeze after installing requirements.txt (+ transitive).
+# Locked with: pip freeze after installing requirements.txt (+ transitive).
 # Regenerated during hardening pass. Prefer requirements.txt pins for installs.
 
 annotated-types==0.8.0
@@ -68,7 +68,7 @@ python-pptx==1.0.2
 PyYAML==6.0.3
 reportlab==5.0.1
 requests==2.34.2
-rich==13.9.4
+rich==15.0.0
 ruff==0.12.10
 sortedcontainers==2.4.0
 stevedore==5.9.1
