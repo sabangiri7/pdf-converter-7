@@ -4,5 +4,5 @@
 pytest==9.1.1
 pytest-cov==6.2.1
 ruff==0.12.10
-bandit==1.8.6
+bandit==1.9.4
 pip-audit==2.9.0

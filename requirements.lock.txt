@@ -1,9 +1,9 @@
-﻿# Locked with: pip freeze after installing requirements.txt (+ transitive).
+# Locked with: pip freeze after installing requirements.txt (+ transitive).
 # Regenerated during hardening pass. Prefer requirements.txt pins for installs.
 
 annotated-types==0.8.0
 APScheduler==3.11.3
-bandit==1.8.6
+bandit==1.9.4
 blinker==1.9.0
 boolean.py==5.0
 CacheControl==0.14.4
