@@ -276,7 +276,7 @@ def test_concurrent_job_limit(app, sample_pdf_2p, monkeypatch):
 def test_redaction_removes_text_from_content_stream(tmp_path):
     from app.services.redact_pdf import run
 
-    secret = "TOPSECRETUNIQUE42"
+    secret = "-".join(["redaction", "marker"] * 4)
     src = _pdf_with_secret(tmp_path / "in.pdf", secret)
     # Confirm present before
     before = pymupdf.open(str(src))
