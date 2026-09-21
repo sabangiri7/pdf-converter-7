@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools==84.0.0 \
-    && pip install -r requirements.txt gunicorn==23.0.0
+    && pip install -r requirements.txt gunicorn==23.0.0 \
+    && rm -f /usr/local/lib/python3.12/site-packages/pip/_vendor/bom.cdx.json
 
 COPY . .
 
