@@ -19,6 +19,7 @@ ocrmypdf==17.11.0
 
 # Images / misc
 Pillow==12.3.0
+msgpack==1.2.2
 APScheduler==3.11.3
 python-pptx==1.0.2
 openpyxl==3.1.5

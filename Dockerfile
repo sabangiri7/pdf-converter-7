@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --upgrade pip \
+RUN pip install --upgrade pip setuptools==84.0.0 \
     && pip install -r requirements.txt gunicorn==23.0.0
 
 COPY . .
