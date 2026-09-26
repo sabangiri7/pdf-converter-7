@@ -1,4 +1,4 @@
-﻿# Locked with: pip freeze after installing requirements.txt (+ transitive).
+# Locked with: pip freeze after installing requirements.txt (+ transitive).
 # Regenerated during hardening pass. Prefer requirements.txt pins for installs.
 
 annotated-types==0.8.0
@@ -77,7 +77,7 @@ typing-inspection==0.4.4
 typing_extensions==4.16.0
 tzdata==2026.4
 tzlocal==5.4.4
-uharfbuzz==0.56.1
+uharfbuzz==0.56.2
 urllib3==2.8.0
 Werkzeug==3.1.8
 wrapt==2.4.1
