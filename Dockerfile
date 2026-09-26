@@ -3,7 +3,7 @@
 # PDF Tools — production image with LibreOffice, Tesseract, Ghostscript
 # Hardening notes: non-root user, no baked-in secrets, gunicorn timeout for
 # long jobs. Compose adds cap_drop / no-new-privileges / resource limits.
-FROM python:3.12-slim-bookworm
+FROM python:3.14-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
