@@ -2,7 +2,7 @@
 -r requirements.txt
 
 pytest==9.1.1
-pytest-cov==6.2.1
+pytest-cov==7.1.0
 ruff==0.12.10
 bandit==1.8.6
 pip-audit==2.9.0
