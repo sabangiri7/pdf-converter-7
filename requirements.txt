@@ -15,7 +15,7 @@ img2pdf==0.6.3
 PyMuPDF==1.28.2
 reportlab==5.0.1
 pdfplumber==0.11.10
-ocrmypdf==17.11.0
+ocrmypdf==17.12.1
 
 # Images / misc
 Pillow==12.3.0
